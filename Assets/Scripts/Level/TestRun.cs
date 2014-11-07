@@ -66,13 +66,11 @@ public class TestRun : MonoBehaviour
 		void Flip ()
 		{
         
-				Vector3 rot = transform.localScale;
-           
-				rot.z *= -1;
-				rot.x *= -1;
-				transform.localScale = rot;
-           
+				Quaternion rot = transform.rotation;
 
+                rot = Quaternion.Inverse(rot);
+              
+                transform.rotation = rot;
            
         
         
