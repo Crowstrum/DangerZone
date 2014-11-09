@@ -26,14 +26,19 @@ public class TestRun : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-				if (grounded && Input.GetKey (KeyCode.Space)) {
-						anim.SetBool ("Jump", true);
-						anim.applyRootMotion = false;
-						rigidbody.AddForce (new Vector3 (0, 100f, 0));
+				if (Input.GetKeyDown (KeyCode.Space)) {
+						
+						
+						if (grounded) {
+								anim.SetBool ("Jump", true);
+								Vector3 jumpvel = rigidbody.velocity;
+								jumpvel.y = 0;
+								rigidbody.velocity = jumpvel;
+								rigidbody.AddForce (new Vector3 (0, 500f, 0));
+						} 
             
-				} else if (grounded) {
+				} else {
 						anim.SetBool ("Jump", false);
-						anim.applyRootMotion = true;
 				}
 				if (Input.GetAxis ("Horizontal") > 0 && grounded) {
 						if (!facingRight) {
@@ -45,7 +50,8 @@ public class TestRun : MonoBehaviour
 						anim.SetBool ("isMoving", true);
 						float hAxis = Input.GetAxis ("Horizontal");
 						anim.SetFloat ("Speed", hAxis);
-         
+						rigidbody.velocity = new Vector3 (hAxis * Time.deltaTime * 500f, 0, 0);
+        
 				} else if (Input.GetAxis ("Horizontal") < 0 && grounded) {
 						if (facingRight) {
 								facingRight = false;
@@ -55,7 +61,8 @@ public class TestRun : MonoBehaviour
 						anim.SetBool ("isMoving", true);
 						float hAxis = Input.GetAxis ("Horizontal");
 						anim.SetFloat ("Speed", hAxis);
-           
+						rigidbody.velocity = new Vector3 (hAxis * Time.deltaTime * 500f, 0, 0);
+
 				} else {
 						anim.SetBool ("isMoving", false);
 						anim.SetFloat ("Speed", 0);
