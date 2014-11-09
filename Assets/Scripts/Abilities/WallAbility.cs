@@ -22,14 +22,14 @@ public class WallAbility : MonoBehaviour
             if (transform.forward.x == 1)
             {
                 GameObject new_wall = (GameObject)Instantiate(wall, gameObject.transform.position + 
-                    gameObject.transform.forward + new Vector3(1, -2, 1.0f), Quaternion.identity);
+                    gameObject.transform.forward + new Vector3(1.5f, -2, 1.0f), Quaternion.identity);
             }
 
             if (transform.forward.x == -1)
             {
 
                 GameObject new_wall = (GameObject)Instantiate(wall, gameObject.transform.position +
-                   gameObject.transform.forward + new Vector3(-1, -2, 1.0f), Quaternion.identity);
+                   gameObject.transform.forward + new Vector3(-1.5f, -2, 1.0f), Quaternion.identity);
 
             }
 
