@@ -8,7 +8,9 @@ public class WallMove : MonoBehaviour
 
     public float timer = 3.0f;
 
-    public float amountToRaiseBy = 0.0005f;
+    public float amountToRaiseBy = 0.8f;
+
+    public float finalPosition = 3.5f;
 
     void Awake()
     {
@@ -46,12 +48,14 @@ public class WallMove : MonoBehaviour
 
     IEnumerator MoveWall()
     {
-        float finalPosition = player.transform.position.y - 0.8f;
 
-        while (transform.position.y < finalPosition)
+        while (transform.localScale.y < finalPosition)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y +
-                amountToRaiseBy, transform.position.z);
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y +
+                amountToRaiseBy, transform.localScale.z);
+
+            transform.position = Vector3.Lerp(transform.position, 
+                new Vector3(0.0f, amountToRaiseBy / 2, 0.0f) + transform.position, Time.deltaTime * 10.0f);
 
            // yield return null;
             yield return new WaitForSeconds(0.01f);

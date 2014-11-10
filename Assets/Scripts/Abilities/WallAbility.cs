@@ -4,9 +4,9 @@ using System.Collections;
 public class WallAbility : MonoBehaviour 
 {
 
-    public float wallSpawnPoint = 1.63541f;
-
     public GameObject wall;
+
+    public GameObject groundCheck;
 
 	// Use this for initialization
 	void Start () 
@@ -25,9 +25,7 @@ public class WallAbility : MonoBehaviour
             {
 
                 Vector3 spawnPosition = gameObject.transform.position +
-                    gameObject.transform.forward + new Vector3(1.5f, -3.7f, 1.0f);
-
-                spawnPosition.y = wallSpawnPoint;
+                    gameObject.transform.forward + new Vector3(1.5f, groundCheck.transform.position.y, 1.5f);
 
                 GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
             }
@@ -36,9 +34,7 @@ public class WallAbility : MonoBehaviour
             {
 
                 Vector3 spawnPosition = gameObject.transform.position +
-                  gameObject.transform.forward + new Vector3(-1.5f, -3.7f, 1.0f);
-
-                spawnPosition.y = wallSpawnPoint;
+                  gameObject.transform.forward + new Vector3(-1.5f, groundCheck.transform.position.y, 1.5f);
 
                 GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
 
