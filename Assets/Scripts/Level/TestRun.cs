@@ -65,7 +65,7 @@ public class TestRun : MonoBehaviour
 				if (grounded && Input.GetKeyDown (KeyCode.Space)) {
 			
 								anim.SetBool ("Jump", true);
-								rigidbody.AddForce (new Vector3 (0, jumpForce, 0),ForceMode.Acceleration);
+								rigidbody.velocity = new Vector3(0,jumpForce,0);
                 }
                 else
                 {
