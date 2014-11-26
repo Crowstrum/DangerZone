@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TestRun : MonoBehaviour
 {
+	public int playerId = 0;
 		public LayerMask groundLayer;
 		public GameObject groundObj;
 		private bool grounded;
@@ -26,40 +27,78 @@ public class TestRun : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-				if (grounded && Input.GetKey (KeyCode.Space)) {
-						anim.SetBool ("Jump", true);
-						anim.applyRootMotion = false;
-						rigidbody.AddForce (new Vector3 (0, 100f, 0));
+		if (playerId == 1) {
+						if (grounded && Input.GetKey (KeyCode.Space)) {
+								anim.SetBool ("Jump", true);
+								//anim.applyRootMotion = false;
+								rigidbody.AddForce (new Vector3 (0, 100f, 0));
             
-				} else if (grounded) {
-						anim.SetBool ("Jump", false);
-						anim.applyRootMotion = true;
-				}
-				if (Input.GetAxis ("Horizontal") > 0 && grounded) {
-						if (!facingRight) {
-								facingRight = true;
-								Flip ();
-                
+						} else if (grounded) {
+								anim.SetBool ("Jump", false);
+							//	anim.applyRootMotion = true;
 						}
+						if (Input.GetAxis ("Horizontal") > 0 && grounded) {
+								if (!facingRight) {
+										facingRight = true;
+										Flip ();
+                
+								}
            
-						anim.SetBool ("isMoving", true);
-						float hAxis = Input.GetAxis ("Horizontal");
-						anim.SetFloat ("Speed", hAxis);
+								anim.SetBool ("isMoving", true);
+								float hAxis = Input.GetAxis ("Horizontal");
+								anim.SetFloat ("Speed", hAxis);
          
-				} else if (Input.GetAxis ("Horizontal") < 0 && grounded) {
-						if (facingRight) {
-								facingRight = false;
-								Flip ();
+						} else if (Input.GetAxis ("Horizontal") < 0 && grounded) {
+								if (facingRight) {
+										facingRight = false;
+										Flip ();
                 
-						}
-						anim.SetBool ("isMoving", true);
-						float hAxis = Input.GetAxis ("Horizontal");
-						anim.SetFloat ("Speed", hAxis);
+								}
+								anim.SetBool ("isMoving", true);
+								float hAxis = Input.GetAxis ("Horizontal");
+								anim.SetFloat ("Speed", hAxis);
            
-				} else {
-						anim.SetBool ("isMoving", false);
-						anim.SetFloat ("Speed", 0);
+						} else {
+								anim.SetBool ("isMoving", false);
+								anim.SetFloat ("Speed", 0);
+						}
 				}
+		if (playerId == 2) {
+			if (grounded && Input.GetKey (KeyCode.Space)) {
+				anim.SetBool ("Jump", true);
+			//	anim.applyRootMotion = false;
+				rigidbody.AddForce (new Vector3 (0, 100f, 0));
+				
+			} else if (grounded) {
+				anim.SetBool ("Jump", false);
+				//anim.applyRootMotion = true;
+			}
+			if (Input.GetAxis ("Horizontal2") > 0 && grounded) {
+				if (!facingRight) {
+					facingRight = true;
+					Flip ();
+					
+				}
+				
+				anim.SetBool ("isMoving", true);
+				float hAxis = Input.GetAxis ("Horizontal2");
+				anim.SetFloat ("Speed", hAxis);
+				
+			} else if (Input.GetAxis ("Horizontal2") < 0 && grounded) {
+				if (facingRight) {
+					facingRight = false;
+					Flip ();
+					
+				}
+				anim.SetBool ("isMoving", true);
+				float hAxis = Input.GetAxis ("Horizontal2");
+				anim.SetFloat ("Speed", hAxis);
+				
+			} else {
+				anim.SetBool ("isMoving", false);
+				anim.SetFloat ("Speed", 0);
+			}
+		}
 	
 		}
 
