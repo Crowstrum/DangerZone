@@ -8,6 +8,8 @@ public class WallAbility : MonoBehaviour
 
     public GameObject groundCheck;
 
+    public float wallCoolDown = 0.0f;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -21,24 +23,41 @@ public class WallAbility : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
 
-            if (transform.forward.x > 0)
+            if (wallCoolDown <= 0)
             {
+                wallCoolDown = 5.0f;
 
-                Vector3 spawnPosition = gameObject.transform.position +
+                if (transform.forward.x > 0)
+                {
+
+                    Vector3 spawnPosition = gameObject.transform.position +
                     gameObject.transform.forward + new Vector3(1.5f, groundCheck.transform.position.y, 1.5f);
 
-                GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
+                    GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
+
+                }
+
+                if (transform.forward.x < 0)
+                {
+
+                    Vector3 spawnPosition = gameObject.transform.position +
+                    gameObject.transform.forward + new Vector3(-1.5f, groundCheck.transform.position.y, 1.5f);
+
+                    GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
+
+
+                }
+
             }
 
-            if (transform.forward.x < 0)
-            {
+        }
 
-                Vector3 spawnPosition = gameObject.transform.position +
-                  gameObject.transform.forward + new Vector3(-1.5f, groundCheck.transform.position.y, 1.5f);
+        if (wallCoolDown > 0)
+        {
 
-                GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
+            wallCoolDown -= Time.deltaTime;
 
-            }
+            Debug.Log(wallCoolDown);
 
         }
 	
