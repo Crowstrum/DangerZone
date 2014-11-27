@@ -4,7 +4,7 @@ using System.Collections;
 public class ItemDeflection : MonoBehaviour 
 {
 
-    public float deflection = 50.0f;
+    public float deflection = 1000.0f;
 
 	// Use this for initialization
 	void Start ()
