@@ -8,7 +8,7 @@ public class Invisibility : MonoBehaviour {
 
     public float invisibilityTimer = 0.0f;
 
-    bool invisible = false;
+    public bool invisible = false;
 
 	// Use this for initialization
 	void Start () 
@@ -28,8 +28,6 @@ public class Invisibility : MonoBehaviour {
 
                 invisibilityCoolDown = 5.0f;
 
-                gameObject.GetComponent<CapsuleCollider>().enabled = false;
-
                 gameObject.GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
 
                 invisible = true;
@@ -46,8 +44,6 @@ public class Invisibility : MonoBehaviour {
 
         if (invisibilityTimer <= 0)
         {
-
-            gameObject.GetComponent<CapsuleCollider>().enabled = true;
 
             gameObject.GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
 
