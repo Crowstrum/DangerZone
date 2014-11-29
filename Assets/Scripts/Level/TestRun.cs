@@ -23,7 +23,7 @@ public class TestRun : MonoBehaviour
 		// Update is called once per frame
 		void FixedUpdate ()
 		{
-            Debug.Log(rigidbody.velocity.y);
+            //Debug.Log(rigidbody.velocity.y);
            
             if (!grounded)
             {
@@ -62,7 +62,7 @@ public class TestRun : MonoBehaviour
 		void Update ()
 		{
             
-				if (grounded && Input.GetKeyDown (KeyCode.Space)) {
+				if (grounded && (Input.GetKeyDown (KeyCode.Space) || Input.GetButtonDown("Player1A"))) {
 			
 								anim.SetBool ("Jump", true);
 								rigidbody.velocity = new Vector3(0,jumpForce,0);

@@ -20,7 +20,7 @@ public class MouseAiming : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.Find("Robot Kyle");
+		player = GameObject.Find("Player1");
 		mouseKeyboard = true;
 		//bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
 	}
@@ -50,17 +50,17 @@ public class MouseAiming : MonoBehaviour {
 			}
 		} else {
 
-			cPlayerInput = new Vector3(Input.GetAxis(gameObject.name + "RightStickX"), Input.GetAxis(gameObject.name + "RightStickY"), 0.0f);
+			cPlayerInput = new Vector3(Input.GetAxis("Player1RightStickX"), Input.GetAxis("Player1RightStickY"), 0.0f);
 
 			//bullet.transform.position = transform.position + cPlayerInput;
 
-			angle = Mathf.Atan2(Input.GetAxis(gameObject.name + "RightStickX"), Input.GetAxis(gameObject.name + "RightStickY")) * Mathf.Rad2Deg;
+			angle = Mathf.Atan2(Input.GetAxis("Player1RightStickX"), Input.GetAxis("Player1RightStickY")) * Mathf.Rad2Deg;
 
 			transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
 
 			Debug.DrawRay(transform.position, transform.right, Color.cyan);
 
-			if(Input.GetButtonDown("Fire1")){
+			if(Input.GetButtonDown("Player1X")){
 				//temp = cPlayerInput;
 				//temp = temp * Vector3.Distance(transform.position, cPlayerInput);
                 temp = 25.0f * cPlayerInput;
