@@ -20,6 +20,6 @@ public class CameraFollow : MonoBehaviour
 				var chaseSpeed = 0.6f;
 
 				transform.position = transform.position +
-						(new Vector3 (newX, newY, z) - transform.position) * chaseSpeed;
+						(new Vector3 (newX, newY + 3.0f, z) - transform.position) * chaseSpeed;
 		}
 }
