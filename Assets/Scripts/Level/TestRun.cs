@@ -23,7 +23,7 @@ public class TestRun : MonoBehaviour
 		// Update is called once per frame
 		void FixedUpdate ()
 		{
-            Debug.Log(rigidbody.velocity.y);
+            //Debug.Log(rigidbody.velocity.y);
            
             if (!grounded)
             {

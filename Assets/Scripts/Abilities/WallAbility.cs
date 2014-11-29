@@ -57,7 +57,7 @@ public class WallAbility : MonoBehaviour
 
             wallCoolDown -= Time.deltaTime;
 
-            Debug.Log(wallCoolDown);
+            //Debug.Log(wallCoolDown);
 
         }
 	

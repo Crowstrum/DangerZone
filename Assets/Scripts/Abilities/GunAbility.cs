@@ -4,11 +4,13 @@ using System.Collections;
 public class GunAbility : MonoBehaviour 
 {
 
-    public float shootCoolDown = 0.0f;
+    public float shootCoolDown = 5.0f;
 
     public GameObject bulletPrefab;
 
-    public Vector3 bulletVelocity;
+    public GameObject pointToShootFrom;
+
+    public float bulletSpeed;
 
 	// Use this for initialization
 	void Start () 
@@ -24,14 +26,21 @@ public class GunAbility : MonoBehaviour
         {
             if (shootCoolDown <= 0)
             {
+                shootCoolDown = 5.0f;
 
-                GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity) 
-                    as GameObject;
+                GameObject bullet = Instantiate(bulletPrefab, pointToShootFrom.transform.position,
+                    Quaternion.identity) as GameObject;
 
-                bullet.GetComponent<Bullet>().velocity = bulletVelocity;
-
+                bullet.GetComponent<Bullet>().velocity = gameObject.transform.forward * bulletSpeed;
 
             }
+
+        }
+
+        if (shootCoolDown > 0)
+        {
+
+            shootCoolDown -= Time.deltaTime;
 
         }
 

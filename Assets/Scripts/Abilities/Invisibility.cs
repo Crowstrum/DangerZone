@@ -59,7 +59,7 @@ public class Invisibility : MonoBehaviour {
 
             invisibilityCoolDown -= Time.deltaTime;
 
-            Debug.Log(invisibilityCoolDown);
+            //Debug.Log(invisibilityCoolDown);
 
         }
 
