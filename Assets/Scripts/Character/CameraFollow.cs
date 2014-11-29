@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
-		public GameObject player;
+		public GameObject flag;
     
 		// Use this for initialization
 		void Start ()
@@ -13,13 +13,13 @@ public class CameraFollow : MonoBehaviour
     
 		void Update ()
 		{
-				var newX = player.transform.position.x;
+				var newX = flag.transform.position.x;
 				//  var newZ = player.transform.position.z;
-				var y = transform.position.y;
+				var newY = flag.transform.position.y;
 				var z = transform.position.z;
 				var chaseSpeed = 0.6f;
 
 				transform.position = transform.position +
-						(new Vector3 (newX, y, z) - transform.position) * chaseSpeed;
+						(new Vector3 (newX, newY, z) - transform.position) * chaseSpeed;
 		}
 }
