@@ -28,7 +28,6 @@ public class CharSelection : MonoBehaviour {
 
 	public void buttonColorOnSelect()
 	{
-
 			//P1 Buttons
 			if(p1_ninja == true)
 				ninjaButton1.defaultColor = Color.green;
@@ -71,6 +70,7 @@ public class CharSelection : MonoBehaviour {
 			else
 				gamblerButton2.ResetDefaultColor();
 
+		//setCharacter();
 	}
 
 	public void p1_ninjaSelcted()
@@ -169,4 +169,11 @@ public class CharSelection : MonoBehaviour {
 		buttonColorOnSelect();
 	}
 
+//	public void setCharacter()
+//	{
+//
+//		CharacterDisplay.p1_SelectedChar = CharSelection.p1Char;
+//		CharacterDisplay.p2_SelectedChar = CharSelection.p2Char;
+//
+//	}
 }
