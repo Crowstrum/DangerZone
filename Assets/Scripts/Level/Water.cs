@@ -75,6 +75,7 @@ public class Water : MonoBehaviour
             
 						//Create the splash and tell it to destroy itself.
 						GameObject splish = Instantiate (splash, position, rotation) as GameObject;
+						splish.transform.parent = this.transform;
 						Destroy (splish, lifetime + 0.3f);
 				}
 		}
