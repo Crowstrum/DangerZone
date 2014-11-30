@@ -7,6 +7,7 @@ public class LinearSaw : MonoBehaviour
 		public GameObject pointBGO;
 
 		public float speed;
+		public bool rotate = false;
 		
 		private Vector3 pointA;
 		private Vector3 pointB;
@@ -33,6 +34,14 @@ public class LinearSaw : MonoBehaviour
 						i += Time.deltaTime * rate;
 						thisTransform.position = Vector3.Lerp (startPos, endPos, i);
 						yield return 0; 
+				}
+		}
+
+		void Update ()
+		{
+				if (rotate) {
+
+						transform.Rotate (Vector3.back * Time.deltaTime * 900f);
 				}
 		}
 }
