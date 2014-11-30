@@ -58,6 +58,6 @@ public class Laser : MonoBehaviour
 
 		void Update ()
 		{
-				Debug.Log (laserActive);
+				//Debug.Log (laserActive);
 		}
 }

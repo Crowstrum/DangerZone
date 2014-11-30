@@ -51,8 +51,7 @@ public class WallMove : MonoBehaviour
 
         while (transform.localScale.y < finalPosition)
         {
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y +
-                amountToRaiseBy, transform.localScale.z);
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y + amountToRaiseBy, transform.localScale.z);
 
             transform.position = Vector3.Lerp(transform.position, 
                 new Vector3(0.0f, amountToRaiseBy / 2, 0.0f) + transform.position, Time.deltaTime * 10.0f);

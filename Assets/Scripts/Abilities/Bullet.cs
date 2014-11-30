@@ -32,7 +32,8 @@ public class Bullet : MonoBehaviour
 
             foreach( Collider col in hitColliders)
             {
-                if (col.tag == "Item" || col.tag == "Player")
+
+                if (col.tag == "Item" || col.tag == "Player" || col.tag == "ThrownItem")
                 {
                     Vector3 distance = col.transform.position - gameObject.transform.position;
 

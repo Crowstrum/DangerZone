@@ -31,7 +31,7 @@ public class WallAbility : MonoBehaviour
                 {
 
                     Vector3 spawnPosition = gameObject.transform.position +
-                    gameObject.transform.forward + new Vector3(1.5f, groundCheck.transform.position.y, 1.5f);
+						gameObject.transform.forward + new Vector3(0.4f, 0.0f, 1.5f);
 
                     GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
 
@@ -41,7 +41,7 @@ public class WallAbility : MonoBehaviour
                 {
 
                     Vector3 spawnPosition = gameObject.transform.position +
-                    gameObject.transform.forward + new Vector3(-1.5f, groundCheck.transform.position.y, 1.5f);
+						gameObject.transform.forward + new Vector3(-0.4f, 0.0f, 1.5f);
 
                     GameObject new_wall = (GameObject)Instantiate(wall, spawnPosition, Quaternion.identity);
 
