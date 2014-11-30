@@ -5,10 +5,14 @@ public class ButtonOnClick : MonoBehaviour {
 
 	// Use this for initialization
 	
-	void OnClick()
+	public void OnClick()
 	{
 		Application.LoadLevel("test");
 	}
+
+
+
+
 	void Start () {
 	
 	}
@@ -17,4 +21,5 @@ public class ButtonOnClick : MonoBehaviour {
 	void Update () {
 	
 	}
+
 }

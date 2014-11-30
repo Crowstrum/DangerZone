@@ -3,6 +3,12 @@ using System.Collections;
 
 public class CharSelection : MonoBehaviour {
 
+	public static CharSelection InstanceS;
+	void Awake()
+	{
+		InstanceS = this;
+		}
+
 	public UIButton ninjaButton1;
 	public UIButton wallmanButton1;
 	public UIButton gunmanButton1;
@@ -28,6 +34,7 @@ public class CharSelection : MonoBehaviour {
 
 	public void buttonColorOnSelect()
 	{
+
 			//P1 Buttons
 			if(p1_ninja == true)
 				ninjaButton1.defaultColor = Color.green;
@@ -81,8 +88,10 @@ public class CharSelection : MonoBehaviour {
 			p1_gunman = false;
 			p1_gambler = false;
 			p1Char = 1;
+
 		}
 		buttonColorOnSelect();
+	//	CharacterDisplay.Instance.characterDisplayPls (11);
 	}
 	public void p1_wallmanSelcted()
 	{
@@ -95,6 +104,7 @@ public class CharSelection : MonoBehaviour {
 			p1Char = 2;
 		}
 		buttonColorOnSelect();
+	//	CharacterDisplay.Instance.characterDisplayPls (12);
 	}
 	public void p1_gunmanSelcted()
 	{
@@ -107,6 +117,7 @@ public class CharSelection : MonoBehaviour {
 			p1Char = 3;
 		}
 		buttonColorOnSelect();
+	//	CharacterDisplay.Instance.characterDisplayPls (13);
 	}
 	public void p1_gamblerSelcted()
 	{
@@ -116,9 +127,10 @@ public class CharSelection : MonoBehaviour {
 			p1_wallman = false;
 			p1_gunman = false;
 			p1_gambler = true;
-			p1Char = 3;
+			p1Char = 4;
 		}
 		buttonColorOnSelect();
+	//	CharacterDisplay.Instance.characterDisplayPls (14);
 	}
 
 	public void p2_ninjaSelcted()
@@ -131,6 +143,7 @@ public class CharSelection : MonoBehaviour {
 			p2Char = 1;
 		}
 		buttonColorOnSelect();
+	//	CharacterDisplay.Instance.characterDisplayPls (21);
 	}
 	public void p2_wallmanSelcted()
 	{
@@ -143,6 +156,7 @@ public class CharSelection : MonoBehaviour {
 			p2Char = 2;
 		}
 		buttonColorOnSelect();
+	//		CharacterDisplay.Instance.characterDisplayPls (22);
 	}
 	public void p2_gunmanSelcted()
 	{
@@ -155,6 +169,7 @@ public class CharSelection : MonoBehaviour {
 			p2Char = 3;
 		}
 		buttonColorOnSelect();
+	//		CharacterDisplay.Instance.characterDisplayPls (23);
 	}
 	public void p2_gamblerSelcted()
 	{
@@ -164,16 +179,17 @@ public class CharSelection : MonoBehaviour {
 			p2_wallman = false;
 			p2_gunman = false;
 			p2_gambler = true;
-			p2Char = 3;
+			p2Char = 4;
 		}
 		buttonColorOnSelect();
+	//		CharacterDisplay.Instance.characterDisplayPls (24);
 	}
 
-//	public void setCharacter()
-//	{
-//
-//		CharacterDisplay.p1_SelectedChar = CharSelection.p1Char;
-//		CharacterDisplay.p2_SelectedChar = CharSelection.p2Char;
-//
-//	}
+	public void setCharacter()
+	{
+
+		//CharacterDisplay.p1_SelectedChar = CharSelection.p1Char;
+		//CharacterDisplay.p2_SelectedChar = CharSelection.p2Char;
+
+	}
 }
