@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 9fba735ab7ad258449ab6373d6d74b7d
+guid: f9c83fb5e26a8ed4b93f958b6ab1acdb
 TextureImporter:
   fileIDToRecycleName:
-    21300000: free-paper-texture-35
+    21300000: CharPlaceHolderImage3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -18,11 +18,11 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: .25
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: 5
+  textureFormat: -1
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
@@ -39,7 +39,7 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:

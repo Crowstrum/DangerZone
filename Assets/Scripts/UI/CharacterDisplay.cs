@@ -3,52 +3,97 @@ using System.Collections;
 
 public class CharacterDisplay : MonoBehaviour {
 
+	public int p1_SelectedChar;
+	public int p2_SelectedChar;
+
+//	public UI2DSprite LeftCharPicPlace;
+//	public UI2DSprite RightCharPicPlace;
+//	public UI2DSprite LeftItemPicPlace;
+//	public UI2DSprite RightItemPicPlace;
+
 	public Sprite char1;
 	public Sprite char2;
-	private UI2DSprite spriteRenderer;
+	public Sprite char3;
+	public Sprite char4;
 
-//	void CharSelected()
-//	{
-//		if (Input.GetButtonDown ("p"))
-//						gameObject.GetComponents(SpriteRenderer) = char1;
-//	
-//	}
+//	public Sprite item0;
+//	public Sprite item1;
+//	public Sprite item2;
+//	public Sprite item3;
+//	public Sprite item4;
+
+	private UI2DSprite LeftCharPic;
+	private UI2DSprite RightCharPic;
+//	private UI2DSprite LeftCharItem;
+//	private UI2DSprite RightCharItem;
+
+//	GameObject p1_CurrentItem;
+//	GameObject p2_CurrentItem;
 
 
-	// Use this for initialization
 	void Start () {
-		spriteRenderer = GetComponent<UI2DSprite>(); // we are accessing the SpriteRenderer that is attached to the Gameobject
-		//if (spriteRenderer.sprite == null) // if the sprite on spriteRenderer is null then
-		spriteRenderer.sprite2D = char1;
-		//spriteRenderer.sprite = char1;
+		LeftCharPic = GetComponent<UI2DSprite>(); 
+		RightCharPic = GetComponent<UI2DSprite>(); 
 
-		
+//		LeftCharItem = GetComponent<UI2DSprite>(); 
+//		RightCharItem = GetComponent<UI2DSprite>(); 
+//
+//		if(CharSelection.p1Char == 1)
+//			LeftCharPic.sprite2D = char1;
+//		if(CharSelection.p1Char == 2)
+//			LeftCharPic.sprite2D = char2;
+//		if(CharSelection.p1Char == 3)
+//			LeftCharPic.sprite2D = char3;
+//		if(CharSelection.p1Char == 4)
+//			LeftCharPic.sprite2D = char4;
+//
+//		if(CharSelection.p2Char == 1)
+//			RightCharPic.sprite2D = char1;
+//		if(CharSelection.p2Char == 2)
+//			RightCharPic.sprite2D = char2;
+//		if(CharSelection.p2Char == 3)
+//			RightCharPic.sprite2D = char3;
+//		if(CharSelection.p2Char == 4)
+//			RightCharPic.sprite2D = char4;
+
+
+
+//		LeftCharPicPlace = LeftCharPic;
+//		RightCharPicPlace = RightCharPic;
+//
+//		LeftCharItem.sprite2D = item0;
+//		RightCharItem.sprite2D = item0;
+
+		if(p1_SelectedChar == 1)
+			LeftCharPic.sprite2D = char1;
+		if(p1_SelectedChar == 2)
+			LeftCharPic.sprite2D = char2;
+		if(p1_SelectedChar == 3)
+			LeftCharPic.sprite2D = char3;
+		if(p1_SelectedChar == 4)
+			LeftCharPic.sprite2D = char4;
 	}
 	
-	// Update is called once per frame
+
 	void Update () {
 
-		if (Input.GetKeyDown (KeyCode.Space)) // If the space bar is pushed down
+
+		if (Input.GetKeyDown (KeyCode.Space))
 		{
-			spriteRenderer.sprite2D = char2;
+			LeftCharPic.sprite2D = char2;
 		}
-		if (Input.GetKeyDown (KeyCode.A)) // If the space bar is pushed down
+		if (Input.GetKeyDown (KeyCode.A)) 
 		{
-			spriteRenderer.sprite2D = char1;
+			LeftCharPic.sprite2D = char1;
+		}
+		if (Input.GetKeyDown (KeyCode.S)) 
+		{
+			LeftCharPic.sprite2D = char3;
+		}
+		if (Input.GetKeyDown (KeyCode.D)) 
+		{
+			LeftCharPic.sprite2D = char4;
 		}
 		
 	}
-	/*
-	void ChangeTheDamnSprite ()
-	{
-		if (spriteRenderer.sprite == char1) // if the spriteRenderer sprite = sprite1 then change to sprite2
-		{
-			spriteRenderer.sprite = char2;
-		}
-		if(spriteRenderer.sprite = char2)
-		{
-			spriteRenderer.sprite = char1; // otherwise change it back to sprite1
-		}
-	}
-	*/
 }
