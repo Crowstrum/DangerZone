@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TestRun : MonoBehaviour
 {
+    public GameObject player;
 		public LayerMask groundLayer;
 		public GameObject groundObj;
         public GameObject collisionCheck;
@@ -18,6 +19,7 @@ public class TestRun : MonoBehaviour
 		{
 				anim = GetComponent<Animator> ();
 				facingRight = true;
+                player = this.gameObject;
 		}
 		
 		// Update is called once per frame
@@ -41,7 +43,7 @@ public class TestRun : MonoBehaviour
 				anim.SetBool ("Grounded", grounded);
 				Debug.DrawLine (groundObj.transform.position, Vector3.down, Color.green);
 				
-				float hAxis = Input.GetAxis ("Horizontal");
+				float hAxis = Input.GetAxis (player.name + "RightStickX");
                 if (!wallCollision)
                 {
                     anim.SetFloat("Speed", Mathf.Abs(hAxis));
@@ -62,7 +64,7 @@ public class TestRun : MonoBehaviour
 		void Update ()
 		{
             
-				if (grounded && (Input.GetKeyDown (KeyCode.Space) || Input.GetButtonDown("Player1A"))) {
+				if (grounded && (Input.GetKeyDown (KeyCode.Space) || Input.GetButtonDown(player.name+ "A"))) {
 			
 								anim.SetBool ("Jump", true);
 								rigidbody.velocity = new Vector3(0,jumpForce,0);
