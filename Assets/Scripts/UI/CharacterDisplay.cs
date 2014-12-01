@@ -102,7 +102,7 @@ public class CharacterDisplay : MonoBehaviour
 						RightItemPic.sprite2D = null;
 			
 				}
-				timerObj.text = (Global.Instance.time / 60).ToString ();
+                timerObj.text = (Global.Instance.time / 60).ToString() + " minutes";
 				RightCharPic.text = Global.Instance.player2Score.ToString ();
 				LeftCharPic.text = Global.Instance.player1Score.ToString ();
 

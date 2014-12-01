@@ -32,6 +32,11 @@ public class Global : MonoBehaviour
 				Instance = this;
 				DontDestroyOnLoad (this);
 		}
+
+        void Update()
+        {
+            Global.Instance.time -= Time.deltaTime;
+        }
 	#region Player
 		public GameObject GetPlayerOneGO ()
 		{
