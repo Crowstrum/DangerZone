@@ -13,7 +13,7 @@ public class Belts : MonoBehaviour
 				if (col.tag == "Player") {
 
 						foreach (GameObject c in cogs) {
-								c.transform.Rotate (Vector3.back * Time.deltaTime * 900f);
+								c.transform.Rotate (Vector3.back, Time.deltaTime * 900f, Space.World);
 						}
 						switch (MoveRight) {
 						case true:
