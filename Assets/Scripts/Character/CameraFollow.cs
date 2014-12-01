@@ -17,9 +17,10 @@ public class CameraFollow : MonoBehaviour
 				//  var newZ = player.transform.position.z;
 				var y = transform.position.y;
 				var z = transform.position.z;
-				var chaseSpeed = 0.6f;
+				var chaseSpeed = .3f;
 
 				transform.position = transform.position +
 						(new Vector3 (newX, y, z) - transform.position) * chaseSpeed;
 		}
 }
+ 

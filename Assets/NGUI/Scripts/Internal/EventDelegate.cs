@@ -34,9 +34,6 @@ public class EventDelegate
 
 		public Parameter () { }
 		public Parameter (Object obj, string field) { this.obj = obj; this.field = field; }
-		public Parameter (object val) { mValue = val; }
-
-		[System.NonSerialized] object mValue;
 
 #if REFLECTION_SUPPORT
 		[System.NonSerialized]
@@ -55,8 +52,6 @@ public class EventDelegate
 		{
 			get
 			{
-				if (mValue != null) return mValue;
-
 				if (!cached)
 				{
 					cached = true;
@@ -77,15 +72,7 @@ public class EventDelegate
 				}
 				if (propInfo != null) return propInfo.GetValue(obj, null);
 				if (fieldInfo != null) return fieldInfo.GetValue(obj);
-				if (obj != null) return obj;
-#if !NETFX_CORE
-				if (expectedType != null && expectedType.IsValueType) return null;
-#endif
-				return System.Convert.ChangeType(null, expectedType);
-			}
-			set
-			{
-				mValue = value;
+				return obj;
 			}
 		}
 
@@ -97,17 +84,16 @@ public class EventDelegate
 		{
 			get
 			{
-				if (mValue != null) return mValue.GetType();
 				if (obj == null) return typeof(void);
 				return obj.GetType();
 			}
 		}
 #else // REFLECTION_SUPPORT
-		public object value { get { if (mValue != null) return mValue; return obj; } }
+		public object value { get { return obj; } }
  #if UNITY_EDITOR || !UNITY_FLASH
-		public System.Type type { get { if (mValue != null) return mValue.GeType(); return typeof(void); } }
+		public System.Type type { get { return typeof(void); } }
  #else
-		public System.Type type { get { if (mValue != null) return mValue.GeType(); return null; } }
+		public System.Type type { get { return null; } }
  #endif
 #endif
 	}
@@ -613,15 +599,7 @@ public class EventDelegate
 
 				if (del != null)
 				{
-					try
-					{
-						del.Execute();
-					}
-					catch (System.Exception ex)
-					{
-						if (ex.InnerException != null) Debug.LogError(ex.InnerException.Message);
-						else Debug.LogError(ex.Message);
-					}
+					del.Execute();
 
 					if (i >= list.Count) break;
 					if (list[i] != del) continue;

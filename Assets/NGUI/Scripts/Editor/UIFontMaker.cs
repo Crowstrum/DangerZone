@@ -228,8 +228,6 @@ public class UIFontMaker : EditorWindow
 						}
 					}
 
-					NGUISettings.fontKerning = EditorGUILayout.Toggle("Kerning", NGUISettings.fontKerning);
-
 					GUILayout.Label("Characters", EditorStyles.boldLabel);
 
 					CharacterMap cm = characterMap;
@@ -471,7 +469,6 @@ public class UIFontMaker : EditorWindow
 			if (FreeType.CreateFont(
 				NGUISettings.dynamicFont,
 				NGUISettings.fontSize, mFaceIndex,
-				NGUISettings.fontKerning,
 				NGUISettings.charsToInclude, out bmFont, out tex))
 			{
 				uiFont.bmFont = bmFont;

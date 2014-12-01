@@ -1,40 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DodgeballScript : ItemBase {
+public class DodgeballScript : ItemBase
+{
+		void Start ()
+		{
+				gameObject.GetComponent<SpriteRenderer> ().sprite = base.getSprite ();
+		}
+	#region implemented abstract members of ItemBase
 
-    private float timer;
-    public float origTimer;
+		public override void onHit ()
+		{
+				throw new System.NotImplementedException ();
+		}
 
-    void Awake()
-    {
-        timer = origTimer;
-    }
+	#endregion
 
-    IEnumerator Start()
-    {
-        while (true)
-        {
-            if (this.gameObject.tag == "ThrownItem")
-            {
-                timer -= 1.0f;
-                if (timer <= 0.0f)
-                {
-                    onHit();
-                }
-            }
-            else
-            {
-                timer = origTimer;
-            }
+		
 
-            Debug.Log(timer.ToString());
-
-            yield return new WaitForSeconds(1.0f);
-        }
-    }
-    public override void onHit()
-    {
-        Destroy(gameObject);
-    }
+		
+	#region implemented abstract members of ItemBase
+		public override void OnCollisionEnter (Collision col)
+		{
+				if (col.transform.tag == "Player" && tag == "ThrownItem") {
+						col.gameObject.GetComponent<PlayerDeath> ().OnDeath ();
+						Global.Instance.DecrementItemCounter ();
+						Destroy (gameObject);
+				} 
+				transform.collider.enabled = true;
+				transform.tag = "Item";
+				
+		}
+	#endregion
 }

@@ -266,12 +266,6 @@ public class UIGrid : UIWidgetContainer
 		enabled = false;
 	}
 
-	/// <summary>
-	/// Reposition the content on inspector validation.
-	/// </summary>
-
-	void OnValidate () { if (!Application.isPlaying && NGUITools.GetActive(this)) Reposition(); }
-
 	// Various generic sorting functions
 	static public int SortByName (Transform a, Transform b) { return string.Compare(a.name, b.name); }
 	static public int SortHorizontal (Transform a, Transform b) { return a.localPosition.x.CompareTo(b.localPosition.x); }
@@ -290,7 +284,11 @@ public class UIGrid : UIWidgetContainer
 	[ContextMenu("Execute")]
 	public virtual void Reposition ()
 	{
-		if (Application.isPlaying && !mInitDone && NGUITools.GetActive(this)) Init();
+		if (Application.isPlaying && !mInitDone && NGUITools.GetActive(this))
+		{
+			mReposition = true;
+			return;
+		}
 
 		// Legacy functionality
 		if (sorted)
@@ -324,11 +322,7 @@ public class UIGrid : UIWidgetContainer
 	public void ConstrainWithinPanel ()
 	{
 		if (mPanel != null)
-		{
 			mPanel.ConstrainTargetToBounds(transform, true);
-			UIScrollView sv = mPanel.GetComponent<UIScrollView>();
-			if (sv != null) sv.UpdateScrollbars(true);
-		}
 	}
 
 	/// <summary>
@@ -362,7 +356,7 @@ public class UIGrid : UIWidgetContainer
 				new Vector3(cellWidth * x, -cellHeight * y, depth) :
 				new Vector3(cellWidth * y, -cellHeight * x, depth);
 
-			if (animateSmoothly && Application.isPlaying && Vector3.SqrMagnitude(t.localPosition - pos) >= 0.0001f)
+			if (animateSmoothly && Application.isPlaying)
 			{
 				SpringPosition sp = SpringPosition.Begin(t.gameObject, pos, 15f);
 				sp.updateScrollView = true;

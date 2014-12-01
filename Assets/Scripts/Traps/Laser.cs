@@ -9,7 +9,7 @@ public class Laser : MonoBehaviour
 		public GameObject light;
 		public AudioClip charging;
 		public AudioClip firing;
-	
+		public GameObject laserCol;
 		public float speed;
 		public bool laserActive;
 	
@@ -87,5 +87,6 @@ public class Laser : MonoBehaviour
 		void Update ()
 		{
 				light.SetActive (laserActive);
+				laserCol.collider.enabled = laserActive;
 		}
 }

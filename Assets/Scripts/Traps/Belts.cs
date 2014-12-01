@@ -10,21 +10,25 @@ public class Belts : MonoBehaviour
 
 		void OnTriggerStay (Collider col)
 		{
-				foreach (GameObject c in cogs) {
-						c.transform.Rotate (Vector3.back * Time.deltaTime * 900f);
-				}
-				switch (MoveRight) {
-				case true:
-						if (col.tag == "Player") {
-								col.rigidbody.AddForce (Vector3.right * 900f);
+				if (col.tag == "Player") {
+
+						foreach (GameObject c in cogs) {
+								c.transform.Rotate (Vector3.back * Time.deltaTime * 900f);
 						}
-						break;
-				case false:
-						if (col.tag == "Player") {
-								col.rigidbody.AddForce (Vector3.left * 900f);
+						switch (MoveRight) {
+						case true:
+								if (col.tag == "Player") {
+										col.rigidbody.AddForce (Vector3.right * 900f);
+								}
+								break;
+						case false:
+								if (col.tag == "Player") {
+										col.rigidbody.AddForce (Vector3.left * 900f);
+								}
+								break;
 						}
-						break;
-				}
 				
+				}
+	
 		}
 }

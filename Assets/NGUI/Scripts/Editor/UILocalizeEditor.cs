@@ -68,28 +68,20 @@ public class UILocalizeEditor : Editor
 				string[] keys;
 				string[] values;
 
-				if (Localization.dictionary.TryGetValue("KEY", out keys) &&
-					Localization.dictionary.TryGetValue(myKey, out values))
+				if (Localization.dictionary.TryGetValue("KEY", out keys) && Localization.dictionary.TryGetValue(myKey, out values))
 				{
-					if (keys.Length != values.Length)
+					for (int i = 0; i < keys.Length; ++i)
 					{
-						EditorGUILayout.HelpBox("Number of keys doesn't match the number of values! Did you modify the dictionaries by hand at some point?", MessageType.Error);
-					}
-					else
-					{
-						for (int i = 0; i < keys.Length; ++i)
-						{
-							GUILayout.BeginHorizontal();
-							GUILayout.Label(keys[i], GUILayout.Width(66f));
+						GUILayout.BeginHorizontal();
+						GUILayout.Label(keys[i], GUILayout.Width(70f));
 
-							if (GUILayout.Button(values[i], "AS TextArea", GUILayout.MinWidth(80f), GUILayout.MaxWidth(Screen.width - 110f)))
-							{
-								(target as UILocalize).value = values[i];
-								GUIUtility.hotControl = 0;
-								GUIUtility.keyboardControl = 0;
-							}
-							GUILayout.EndHorizontal();
+						if (GUILayout.Button(values[i], "AS TextArea", GUILayout.MinWidth(80f), GUILayout.MaxWidth(Screen.width - 110f)))
+						{
+							(target as UILocalize).value = values[i];
+							GUIUtility.hotControl = 0;
+							GUIUtility.keyboardControl = 0;
 						}
+						GUILayout.EndHorizontal();
 					}
 				}
 				else

@@ -1,15 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GlassScript : ItemBase {
+public class GlassScript : ItemBase
+{
+	
+		public override void onHit ()
+		{
+				Destroy (gameObject);
+		}
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	#region implemented abstract members of ItemBase
+
+		public override void OnCollisionEnter (Collision col)
+		{
+				if (col.transform.tag == "Player" && tag == "ThrownItem") {
+						col.gameObject.GetComponent<PlayerDeath> ().OnDeath ();
+						Destroy (gameObject);
+				}
+				transform.collider.enabled = true;
+				transform.tag = "Item";
+				
+		}
+
+	#endregion
 }

@@ -120,13 +120,6 @@ public class UIPopupList : UIWidgetContainer
 	public List<string> items = new List<string>();
 
 	/// <summary>
-	/// You can associate arbitrary data to be associated with your entries if you like.
-	/// The only downside is that this must be done via code.
-	/// </summary>
-
-	public List<object> itemData = new List<object>();
-
-	/// <summary>
 	/// Amount of padding added to labels.
 	/// </summary>
 
@@ -161,20 +154,6 @@ public class UIPopupList : UIWidgetContainer
 	/// </summary>
 
 	public bool isLocalized = false;
-
-	public enum OpenOn
-	{
-		ClickOrTap,
-		RightClick,
-		DoubleClick,
-		Manual,
-	}
-
-	/// <summary>
-	/// What kind of click is needed in order to open the popup list.
-	/// </summary>
-
-	public OpenOn openOn = OpenOn.ClickOrTap;
 
 	/// <summary>
 	/// Callbacks triggered when the popup list gets a new item selection.
@@ -239,19 +218,6 @@ public class UIPopupList : UIWidgetContainer
 		}
 	}
 
-	/// <summary>
-	/// Item data associated with the current selection.
-	/// </summary>
-
-	public object data
-	{
-		get
-		{
-			int index = items.IndexOf(mSelectedItem);
-			return index < itemData.Count ? itemData[index] : null;
-		}
-	}
-
 	[System.Obsolete("Use 'value' instead")]
 	public string selection { get { return value; } set { this.value = value; } }
 
@@ -290,36 +256,6 @@ public class UIPopupList : UIWidgetContainer
 	/// </summary>
 
 	float activeFontScale { get { return (trueTypeFont != null || bitmapFont == null) ? 1f : (float)fontSize / bitmapFont.defaultSize; } }
-
-	/// <summary>
-	/// Clear the popup list's contents.
-	/// </summary>
-
-	public void Clear ()
-	{
-		items.Clear();
-		itemData.Clear();
-	}
-
-	/// <summary>
-	/// Add a new item to the popup list.
-	/// </summary>
-
-	public void AddItem (string text)
-	{
-		items.Add(text);
-		itemData.Add(null);
-	}
-
-	/// <summary>
-	/// Add a new item to the popup list.
-	/// </summary>
-
-	public void AddItem (string text, object data)
-	{
-		items.Add(text);
-		itemData.Add(data);
-	}
 
 	/// <summary>
 	/// Trigger all event notification callbacks.
@@ -514,6 +450,7 @@ public class UIPopupList : UIWidgetContainer
 		float scaleFactor = atlas.pixelSize;
 		float offsetX = sp.borderLeft * scaleFactor;
 		float offsetY = sp.borderTop * scaleFactor;
+
 		return mHighlightedLabel.cachedTransform.localPosition + new Vector3(-offsetX, offsetY, 1f);
 	}
 
@@ -621,12 +558,6 @@ public class UIPopupList : UIWidgetContainer
 	}
 
 	/// <summary>
-	/// Close the popup list when disabled.
-	/// </summary>
-
-	void OnDisable () { Close(); }
-
-	/// <summary>
 	/// Get rid of the popup dialog when the selection gets lost.
 	/// </summary>
 
@@ -730,23 +661,6 @@ public class UIPopupList : UIWidgetContainer
 
 	void OnClick()
 	{
-		if (openOn == OpenOn.DoubleClick || openOn == OpenOn.Manual) return;
-		if (openOn == OpenOn.RightClick && UICamera.currentTouchID != -2) return;
-		Show();
-	}
-
-	/// <summary>
-	/// Show the popup list on double-click.
-	/// </summary>
-
-	void OnDoubleClick () { if (openOn == OpenOn.DoubleClick) Show(); }
-
-	/// <summary>
-	/// Show the popup list dialog.
-	/// </summary>
-
-	public void Show ()
-	{
 		if (enabled && NGUITools.GetActive(gameObject) && mChild == null && atlas != null && isValid && items.Count > 0)
 		{
 			mLabelList.Clear();
@@ -801,10 +715,6 @@ public class UIPopupList : UIWidgetContainer
 			float x = 0f, y = -padding.y;
 			int labelFontSize = (bitmapFont != null) ? bitmapFont.defaultSize : fontSize;
 			List<UILabel> labels = new List<UILabel>();
-
-			// Clear the selection if it's no longer present
-			if (!items.Contains(mSelectedItem))
-				mSelectedItem = null;
 
 			// Run through all items and create labels for each one
 			for (int i = 0, imax = items.Count; i < imax; ++i)

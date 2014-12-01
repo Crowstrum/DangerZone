@@ -213,7 +213,7 @@ public class UIToggle : UIWidgetContainer
 			// Tween the color of the active sprite
 			if (activeSprite != null)
 			{
-				if (instantTween || !NGUITools.GetActive(this))
+				if (instantTween)
 				{
 					activeSprite.alpha = mIsActive ? 1f : 0f;
 				}
@@ -242,11 +242,8 @@ public class UIToggle : UIWidgetContainer
 			// Play the checkmark animation
 			if (activeAnimation != null)
 			{
-				ActiveAnimation aa = ActiveAnimation.Play(activeAnimation, null,
-					state ? Direction.Forward : Direction.Reverse,
-					EnableCondition.IgnoreDisabledState,
-					DisableCondition.DoNotDisable);
-				if (aa != null && (instantTween || !NGUITools.GetActive(this))) aa.Finish();
+				ActiveAnimation aa = ActiveAnimation.Play(activeAnimation, state ? Direction.Forward : Direction.Reverse);
+				if (instantTween) aa.Finish();
 			}
 		}
 	}

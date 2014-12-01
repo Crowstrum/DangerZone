@@ -29,14 +29,6 @@ using System.Collections.Generic;
 
 public static class Localization
 {
-	public delegate byte[] LoadFunction (string path);
-
-	/// <summary>
-	/// Want to have Localization loading be custom instead of just Resources.Load? Set this function.
-	/// </summary>
-
-	static public LoadFunction loadFunction;
-
 	/// <summary>
 	/// Whether the localization dictionary has been loaded.
 	/// </summary>
@@ -123,36 +115,21 @@ public static class Localization
 	static bool LoadDictionary (string value)
 	{
 		// Try to load the Localization CSV
-		byte[] bytes = null;
-
-		if (!localizationHasBeenSet)
-		{
-			if (loadFunction == null)
-			{
-				TextAsset asset = Resources.Load<TextAsset>("Localization");
-				if (asset != null) bytes = asset.bytes;
-			}
-			else bytes = loadFunction("Localization");
-			localizationHasBeenSet = true;
-		}
+		TextAsset txt = localizationHasBeenSet ? null : Resources.Load("Localization", typeof(TextAsset)) as TextAsset;
+		localizationHasBeenSet = true;
 
 		// Try to load the localization file
-		if (LoadCSV(bytes)) return true;
+		if (txt != null && LoadCSV(txt)) return true;
 
 		// If this point was reached, the localization file was not present
 		if (string.IsNullOrEmpty(value)) return false;
 
 		// Not a referenced asset -- try to load it dynamically
-		if (loadFunction == null)
-		{
-			TextAsset asset = Resources.Load<TextAsset>(value);
-			if (asset != null) bytes = asset.bytes;
-		}
-		else bytes = loadFunction(value);
+		txt = Resources.Load(value, typeof(TextAsset)) as TextAsset;
 
-		if (bytes != null)
+		if (txt != null)
 		{
-			Set(value, bytes);
+			Load(txt);
 			return true;
 		}
 		return false;
@@ -191,35 +168,12 @@ public static class Localization
 	}
 
 	/// <summary>
-	/// Set the localization data directly.
+	/// Load the specified CSV file.
 	/// </summary>
 
-	static public void Set (string languageName, byte[] bytes)
+	static public bool LoadCSV (TextAsset asset)
 	{
-		ByteReader reader = new ByteReader(bytes);
-		Set(languageName, reader.ReadDictionary());
-	}
-
-	/// <summary>
-	/// Load the specified CSV file.
-	/// </summary>
-
-	static public bool LoadCSV (TextAsset asset) { return LoadCSV(asset.bytes, asset); }
-
-	/// <summary>
-	/// Load the specified CSV file.
-	/// </summary>
-
-	static public bool LoadCSV (byte[] bytes) { return LoadCSV(bytes, null); }
-
-	/// <summary>
-	/// Load the specified CSV file.
-	/// </summary>
-
-	static bool LoadCSV (byte[] bytes, TextAsset asset)
-	{
-		if (bytes == null) return false;
-		ByteReader reader = new ByteReader(bytes);
+		ByteReader reader = new ByteReader(asset);
 
 		// The first line should contain "KEY", followed by languages.
 		BetterList<string> temp = reader.ReadCSV();
@@ -355,12 +309,6 @@ public static class Localization
 #endif
 		return key;
 	}
-
-	/// <summary>
-	/// Localize the specified value and format it.
-	/// </summary>
-
-	static public string Format (string key, params object[] parameters) { return string.Format(Get(key), parameters); }
 
 	[System.Obsolete("Localization is now always active. You no longer need to check this property.")]
 	static public bool isActive { get { return true; } }

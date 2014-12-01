@@ -80,18 +80,16 @@ public class NGUITransformInspector : Editor
 	void DrawPosition ()
 	{
 		GUILayout.BeginHorizontal();
-		bool reset = GUILayout.Button("P", GUILayout.Width(20f));
-		EditorGUILayout.PropertyField(mPos.FindPropertyRelative("x"));
-		EditorGUILayout.PropertyField(mPos.FindPropertyRelative("y"));
-		EditorGUILayout.PropertyField(mPos.FindPropertyRelative("z"));
+		{
+			bool reset = GUILayout.Button("P", GUILayout.Width(20f));
+
+			EditorGUILayout.PropertyField(mPos.FindPropertyRelative("x"));
+			EditorGUILayout.PropertyField(mPos.FindPropertyRelative("y"));
+			EditorGUILayout.PropertyField(mPos.FindPropertyRelative("z"));
+
+			if (reset) mPos.vector3Value = Vector3.zero;
+		}
 		GUILayout.EndHorizontal();
-
-		//GUILayout.BeginHorizontal();
-		//reset = GUILayout.Button("W", GUILayout.Width(20f));
-		//EditorGUILayout.Vector3Field("", (target as Transform).position);
-
-		if (reset) mPos.vector3Value = Vector3.zero;
-		//GUILayout.EndHorizontal();
 	}
 
 	void DrawScale (bool isWidget)

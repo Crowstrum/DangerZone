@@ -50,37 +50,6 @@ public class UIWidget : UIRect
 	public OnPostFillCallback onPostFill;
 
 	/// <summary>
-	/// Callback triggered when the widget is about to be renderered (OnWillRenderObject).
-	/// NOTE: This property is only exposed for the sake of speed to avoid property execution.
-	/// In most cases you will want to use UIWidget.onRender instead.
-	/// </summary>
-
-	public UIDrawCall.OnRenderCallback mOnRender;
-
-	/// <summary>
-	/// Set the callback that will be triggered when the widget is being rendered (OnWillRenderObject).
-	/// This is where you would set material properties and shader values.
-	/// </summary>
-
-	public UIDrawCall.OnRenderCallback onRender
-	{
-		get
-		{
-			return mOnRender;
-		}
-		set
-		{
-			if (mOnRender != value)
-			{
-				if (drawCall != null && drawCall.onRender != null && mOnRender != null)
-					drawCall.onRender -= mOnRender;
-				mOnRender = value;
-				if (drawCall != null) drawCall.onRender += value;
-			}
-		}
-	}
-
-	/// <summary>
 	/// If set to 'true', the box collider's dimensions will be adjusted to always match the widget whenever it resizes.
 	/// </summary>
 
@@ -863,14 +832,13 @@ public class UIWidget : UIRect
 	/// Remove this widget from the panel.
 	/// </summary>
 
-	public void RemoveFromPanel ()
+	protected void RemoveFromPanel ()
 	{
 		if (panel != null)
 		{
 			panel.RemoveWidget(this);
 			panel = null;
 		}
-		drawCall = null;
 #if UNITY_EDITOR
 		mOldTex = null;
 		mOldShader = null;
@@ -910,6 +878,12 @@ public class UIWidget : UIRect
 				mOldShader = shader;
 			}
 
+			if (panel != null)
+			{
+				panel.RemoveWidget(this);
+				panel = null;
+			}
+
 			aspectRatio = (keepAspectRatio == AspectRatioSource.Free) ?
 				(float)mWidth / mHeight : Mathf.Max(0.01f, aspectRatio);
 
@@ -921,16 +895,7 @@ public class UIWidget : UIRect
 			{
 				mHeight = Mathf.RoundToInt(mWidth / aspectRatio);
 			}
-
-			if (!Application.isPlaying)
-			{
-				if (panel != null)
-				{
-					panel.RemoveWidget(this);
-					panel = null;
-				}
-				CreatePanel();
-			}
+			CreatePanel();
 		}
 		else
 		{

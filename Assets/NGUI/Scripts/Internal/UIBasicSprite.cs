@@ -290,15 +290,7 @@ public abstract class UIBasicSprite : UIWidget
 		{
 			Color colF = color;
 			colF.a = finalAlpha;
-			if (premultipliedAlpha) colF = NGUITools.ApplyPMA(colF);
-
-			if (QualitySettings.activeColorSpace == ColorSpace.Linear)
-			{
-				colF.r = Mathf.Pow(colF.r, 2.2f);
-				colF.g = Mathf.Pow(colF.g, 2.2f);
-				colF.b = Mathf.Pow(colF.b, 2.2f);
-			}
-			return colF;
+			return premultipliedAlpha ? NGUITools.ApplyPMA(colF) : colF;
 		}
 	}
 

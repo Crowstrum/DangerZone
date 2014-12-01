@@ -849,22 +849,7 @@ public class UILabel : UIWidget
 				if (fnt != null)
 				{
 					fnt.RequestCharactersInTexture(lbl.mText, lbl.mPrintedSize, lbl.mFontStyle);
-				}
-			}
-		}
-
-		for (int i = 0; i < mList.size; ++i)
-		{
-			UILabel lbl = mList[i];
-
-			if (lbl != null)
-			{
-				Font fnt = lbl.trueTypeFont;
-
-				if (fnt != null)
-				{
-					lbl.RemoveFromPanel();
-					lbl.CreatePanel();
+					lbl.MarkAsChanged();
 				}
 			}
 		}
@@ -910,7 +895,6 @@ public class UILabel : UIWidget
 		{
 			int min = mFont.defaultSize;
 			if (height < min) height = min;
-			fontSize = min;
 		}
 
 		mMaxLineWidth = 0;
@@ -1057,18 +1041,13 @@ public class UILabel : UIWidget
 		mChanged = true;
 		shouldBeProcessed = false;
 
-		float regionX = mDrawRegion.z - mDrawRegion.x;
-		float regionY = mDrawRegion.w - mDrawRegion.y;
-
-		NGUIText.rectWidth    = legacyMode ? (mMaxLineWidth  != 0 ? mMaxLineWidth  : 1000000) : width;
-		NGUIText.rectHeight   = legacyMode ? (mMaxLineHeight != 0 ? mMaxLineHeight : 1000000) : height;
-		NGUIText.regionWidth  = (regionX != 1f) ? Mathf.RoundToInt(NGUIText.rectWidth  * regionX) : NGUIText.rectWidth;
-		NGUIText.regionHeight = (regionY != 1f) ? Mathf.RoundToInt(NGUIText.rectHeight * regionY) : NGUIText.rectHeight;
+		NGUIText.rectWidth  = legacyMode ? (mMaxLineWidth  != 0 ? mMaxLineWidth  : 1000000) : width;
+		NGUIText.rectHeight = legacyMode ? (mMaxLineHeight != 0 ? mMaxLineHeight : 1000000) : height;
 
 		mPrintedSize = Mathf.Abs(legacyMode ? Mathf.RoundToInt(cachedTransform.localScale.x) : defaultFontSize);
 		mScale = 1f;
 
-		if (NGUIText.regionWidth < 1 || NGUIText.regionHeight < 0)
+		if (NGUIText.rectWidth < 1 || NGUIText.rectHeight < 0)
 		{
 			mProcessedText = "";
 			return;
@@ -1086,17 +1065,9 @@ public class UILabel : UIWidget
 #endif
 		if (full) UpdateNGUIText();
 
-		if (mOverflow == Overflow.ResizeFreely)
-		{
-			NGUIText.rectWidth = 1000000;
-			NGUIText.regionWidth = 1000000;
-		}
-
+		if (mOverflow == Overflow.ResizeFreely) NGUIText.rectWidth = 1000000;
 		if (mOverflow == Overflow.ResizeFreely || mOverflow == Overflow.ResizeHeight)
-		{
 			NGUIText.rectHeight = 1000000;
-			NGUIText.regionHeight = 1000000;
-		}
 
 		if (mPrintedSize > 0)
 		{
@@ -1138,9 +1109,7 @@ public class UILabel : UIWidget
 					mCalculatedSize = NGUIText.CalculatePrintedSize(mProcessedText);
 
 					mWidth = Mathf.Max(minWidth, Mathf.RoundToInt(mCalculatedSize.x));
-					if (regionX != 1f) mWidth = Mathf.RoundToInt(mWidth / regionX);
 					mHeight = Mathf.Max(minHeight, Mathf.RoundToInt(mCalculatedSize.y));
-					if (regionY != 1f) mHeight = Mathf.RoundToInt(mHeight / regionY);
 
 					if ((mWidth & 1) == 1) ++mWidth;
 					if ((mHeight & 1) == 1) ++mHeight;
@@ -1149,7 +1118,6 @@ public class UILabel : UIWidget
 				{
 					mCalculatedSize = NGUIText.CalculatePrintedSize(mProcessedText);
 					mHeight = Mathf.Max(minHeight, Mathf.RoundToInt(mCalculatedSize.y));
-					if (regionY != 1f) mHeight = Mathf.RoundToInt(mHeight / regionY);
 					if ((mHeight & 1) == 1) ++mHeight;
 				}
 				else
@@ -1251,10 +1219,10 @@ public class UILabel : UIWidget
 	}
 
 	[System.Obsolete("Use UILabel.GetCharacterAtPosition instead")]
-	public int GetCharacterIndex (Vector3 worldPos) { return GetCharacterIndexAtPosition(worldPos, false); }
+	public int GetCharacterIndex (Vector3 worldPos) { return GetCharacterIndexAtPosition(worldPos); }
 
 	[System.Obsolete("Use UILabel.GetCharacterAtPosition instead")]
-	public int GetCharacterIndex (Vector2 localPos) { return GetCharacterIndexAtPosition(localPos, false); }
+	public int GetCharacterIndex (Vector2 localPos) { return GetCharacterIndexAtPosition(localPos); }
 
 	static BetterList<Vector3> mTempVerts = new BetterList<Vector3>();
 	static BetterList<int> mTempIndices = new BetterList<int>();
@@ -1263,17 +1231,17 @@ public class UILabel : UIWidget
 	/// Return the index of the character at the specified world position.
 	/// </summary>
 
-	public int GetCharacterIndexAtPosition (Vector3 worldPos, bool precise)
+	public int GetCharacterIndexAtPosition (Vector3 worldPos)
 	{
 		Vector2 localPos = cachedTransform.InverseTransformPoint(worldPos);
-		return GetCharacterIndexAtPosition(localPos, precise);
+		return GetCharacterIndexAtPosition(localPos);
 	}
 
 	/// <summary>
 	/// Return the index of the character at the specified local position.
 	/// </summary>
 
-	public int GetCharacterIndexAtPosition (Vector2 localPos, bool precise)
+	public int GetCharacterIndexAtPosition (Vector2 localPos)
 	{
 		if (isValid)
 		{
@@ -1282,15 +1250,13 @@ public class UILabel : UIWidget
 
 			UpdateNGUIText();
 
-			if (precise) NGUIText.PrintExactCharacterPositions(text, mTempVerts, mTempIndices);
-			else NGUIText.PrintApproximateCharacterPositions(text, mTempVerts, mTempIndices);
+			NGUIText.PrintCharacterPositions(text, mTempVerts, mTempIndices);
 
 			if (mTempVerts.size > 0)
 			{
 				ApplyOffset(mTempVerts, 0);
-				int retVal = precise ?
-					NGUIText.GetExactCharacterIndex(mTempVerts, mTempIndices, localPos) :
-					NGUIText.GetApproximateCharacterIndex(mTempVerts, mTempIndices, localPos);
+				int retVal = NGUIText.GetClosestCharacter(mTempVerts, localPos);
+				retVal = mTempIndices[retVal];
 
 				mTempVerts.Clear();
 				mTempIndices.Clear();
@@ -1314,21 +1280,13 @@ public class UILabel : UIWidget
 	/// Retrieve the word directly below the specified world-space position.
 	/// </summary>
 
-	public string GetWordAtPosition (Vector3 worldPos)
-	{
-		int index = GetCharacterIndexAtPosition(worldPos, true);
-		return GetWordAtCharacterIndex(index);
-	}
+	public string GetWordAtPosition (Vector3 worldPos) { return GetWordAtCharacterIndex(GetCharacterIndexAtPosition(worldPos)); }
 
 	/// <summary>
 	/// Retrieve the word directly below the specified relative-to-label position.
 	/// </summary>
 
-	public string GetWordAtPosition (Vector2 localPos)
-	{
-		int index = GetCharacterIndexAtPosition(localPos, true);
-		return GetWordAtCharacterIndex(index);
-	}
+	public string GetWordAtPosition (Vector2 localPos) { return GetWordAtCharacterIndex(GetCharacterIndexAtPosition(localPos)); }
 
 	/// <summary>
 	/// Retrieve the word right under the specified character index.
@@ -1338,18 +1296,17 @@ public class UILabel : UIWidget
 	{
 		if (characterIndex != -1 && characterIndex < mText.Length)
 		{
-			int wordStart = mText.LastIndexOfAny(new char[] {' ', '\n'}, characterIndex) + 1;
-			int wordEnd = mText.IndexOfAny(new char[] { ' ', '\n', ',', '.' }, characterIndex);
+			int linkStart = mText.LastIndexOf(' ', characterIndex) + 1;
+			int linkEnd = mText.IndexOf(' ', characterIndex);
+			if (linkEnd == -1) linkEnd = mText.Length;
 
-			if (wordEnd == -1) wordEnd = mText.Length;
-
-			if (wordStart != wordEnd)
+			if (linkStart != linkEnd)
 			{
-				int len = wordEnd - wordStart;
+				int len = linkEnd - linkStart;
 
 				if (len > 0)
 				{
-					string word = mText.Substring(wordStart, len);
+					string word = mText.Substring(linkStart, len);
 					return NGUIText.StripSymbols(word);
 				}
 			}
@@ -1361,13 +1318,13 @@ public class UILabel : UIWidget
 	/// Retrieve the URL directly below the specified world-space position.
 	/// </summary>
 
-	public string GetUrlAtPosition (Vector3 worldPos) { return GetUrlAtCharacterIndex(GetCharacterIndexAtPosition(worldPos, true)); }
+	public string GetUrlAtPosition (Vector3 worldPos) { return GetUrlAtCharacterIndex(GetCharacterIndexAtPosition(worldPos)); }
 
 	/// <summary>
 	/// Retrieve the URL directly below the specified relative-to-label position.
 	/// </summary>
 
-	public string GetUrlAtPosition (Vector2 localPos) { return GetUrlAtCharacterIndex(GetCharacterIndexAtPosition(localPos, true)); }
+	public string GetUrlAtPosition (Vector2 localPos) { return GetUrlAtCharacterIndex(GetCharacterIndexAtPosition(localPos)); }
 
 	/// <summary>
 	/// Retrieve the URL right under the specified character index.
@@ -1375,30 +1332,16 @@ public class UILabel : UIWidget
 
 	public string GetUrlAtCharacterIndex (int characterIndex)
 	{
-		if (characterIndex != -1 && characterIndex < mText.Length - 6)
+		if (characterIndex != -1 && characterIndex < mText.Length)
 		{
-			int linkStart;
+			int linkStart = mText.LastIndexOf("[url=", characterIndex);
 
-			// LastIndexOf() fails if the string happens to begin with the expected text
-			if (mText[characterIndex] == '[' &&
-				mText[characterIndex + 1] == 'u' &&
-				mText[characterIndex + 2] == 'r' &&
-				mText[characterIndex + 3] == 'l' &&
-				mText[characterIndex + 4] == '=')
+			if (linkStart != -1)
 			{
-				linkStart = characterIndex;
+				linkStart += 5;
+				int linkEnd = mText.IndexOf("]", linkStart);
+				if (linkEnd != -1) return mText.Substring(linkStart, linkEnd - linkStart);
 			}
-			else linkStart = mText.LastIndexOf("[url=", characterIndex);
-			
-			if (linkStart == -1) return null;
-
-			linkStart += 5;
-			int linkEnd = mText.IndexOf("]", linkStart);
-			if (linkEnd == -1) return null;
-
-			int urlEnd = mText.IndexOf("[/url]", linkEnd);
-			if (urlEnd == -1 || characterIndex <= urlEnd)
-				return mText.Substring(linkStart, linkEnd - linkStart);
 		}
 		return null;
 	}
@@ -1417,7 +1360,7 @@ public class UILabel : UIWidget
 			int def = defaultFontSize;
 			UpdateNGUIText();
 
-			NGUIText.PrintApproximateCharacterPositions(text, mTempVerts, mTempIndices);
+			NGUIText.PrintCharacterPositions(text, mTempVerts, mTempIndices);
 
 			if (mTempVerts.size > 0)
 			{
@@ -1436,7 +1379,8 @@ public class UILabel : UIWidget
 						else if (key == KeyCode.End) localPos.x += 1000f;
 
 						// Find the closest character to this position
-						int retVal = NGUIText.GetApproximateCharacterIndex(mTempVerts, mTempIndices, localPos);
+						int retVal = NGUIText.GetClosestCharacter(mTempVerts, localPos);
+						retVal = mTempIndices[retVal];
 						if (retVal == currentIndex) break;
 
 						mTempVerts.Clear();
@@ -1526,13 +1470,6 @@ public class UILabel : UIWidget
 		col.a = finalAlpha;
 		
 		if (mFont != null && mFont.premultipliedAlphaShader) col = NGUITools.ApplyPMA(col);
-
-		if (QualitySettings.activeColorSpace == ColorSpace.Linear)
-		{
-			col.r = Mathf.Pow(col.r, 2.2f);
-			col.g = Mathf.Pow(col.g, 2.2f);
-			col.b = Mathf.Pow(col.b, 2.2f);
-		}
 
 		string text = processedText;
 		int start = verts.size;
@@ -1720,7 +1657,6 @@ public class UILabel : UIWidget
 	{
 		UpdateNGUIText();
 		NGUIText.rectHeight = height;
-		NGUIText.regionHeight = height;
 		bool retVal = NGUIText.WrapText(text, out final);
 		NGUIText.bitmapFont = null;
 #if DYNAMIC_FONT
@@ -1742,8 +1678,6 @@ public class UILabel : UIWidget
 		NGUIText.fontStyle = mFontStyle;
 		NGUIText.rectWidth = mWidth;
 		NGUIText.rectHeight = mHeight;
-		NGUIText.regionWidth = Mathf.RoundToInt(mWidth * (mDrawRegion.z - mDrawRegion.x));
-		NGUIText.regionHeight = Mathf.RoundToInt(mHeight * (mDrawRegion.w - mDrawRegion.y));
 		NGUIText.gradient = mApplyGradient && (mFont == null || !mFont.packedFontShader);
 		NGUIText.gradientTop = mGradientTop;
 		NGUIText.gradientBottom = mGradientBottom;
@@ -1794,8 +1728,6 @@ public class UILabel : UIWidget
 			ProcessText(false, false);
 			NGUIText.rectWidth = mWidth;
 			NGUIText.rectHeight = mHeight;
-			NGUIText.regionWidth = Mathf.RoundToInt(mWidth * (mDrawRegion.z - mDrawRegion.x));
-			NGUIText.regionHeight = Mathf.RoundToInt(mHeight * (mDrawRegion.w - mDrawRegion.y));
 		}
 #endif
 
