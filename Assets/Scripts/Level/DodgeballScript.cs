@@ -3,27 +3,38 @@ using System.Collections;
 
 public class DodgeballScript : ItemBase {
 
-    void onStart()
+    private float timer;
+    public float origTimer;
+
+    void Awake()
     {
+        timer = origTimer;
     }
 
-    public override void onThrow()
+    IEnumerator Start()
     {
-        base.onThrow();
-    }
+        while (true)
+        {
+            if (this.gameObject.tag == "ThrownItem")
+            {
+                timer -= 1.0f;
+                if (timer <= 0.0f)
+                {
+                    onHit();
+                }
+            }
+            else
+            {
+                timer = origTimer;
+            }
 
+            Debug.Log(timer.ToString());
+
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
     public override void onHit()
     {
-        Destroy(gameObject, 5.0f);
-    }
-
-    void OnCollisionEnter()
-    {
-        //Debug.Log("OnCollisionEnter called");
-        if (this.gameObject.tag == "ThrownItem")
-        {
-            //Debug.Log("Thrown Object has hit something");
-            onHit();
-        }
+        Destroy(gameObject);
     }
 }

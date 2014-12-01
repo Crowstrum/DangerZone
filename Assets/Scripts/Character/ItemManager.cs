@@ -45,7 +45,15 @@ public class ItemManager : MonoBehaviour {
 		}
 
         GetAiming();
-        
+
+        foreach (Collider col in Physics.OverlapSphere(transform.position, 1.25f))
+        {
+            if (col.tag == "Item" || col.tag == "ThrownItem")
+            {
+                Debug.DrawRay(rayStart.transform.position, col.transform.position - rayStart.transform.position);
+            }
+        }
+
 		if (itemHeld == null && (Input.GetButtonDown (player.name + "B") || Input.GetKeyDown (KeyCode.E)))
         {
 			Debug.Log(player.name + "B button Pressed");
@@ -54,8 +62,8 @@ public class ItemManager : MonoBehaviour {
             {
 				if(col.tag == "Item" || col.tag == "ThrownItem")
                 {
-                    Debug.DrawRay(transform.position, col.transform.position - transform.position);
-                    if (itemHeld == null && Physics.Raycast(new Ray(rayStart.transform.position, col.transform.position - rayStart.transform.position), out rayHitInfo, 0.75f))
+                    //Debug.DrawRay(transform.position, col.transform.position - rayStart.transform.position);
+                    if (itemHeld == null && Physics.Raycast(new Ray(rayStart.transform.position, col.transform.position - rayStart.transform.position), out rayHitInfo, 1.25f))
                     {
                         if(rayHitInfo.collider.tag != "Player")
                         itemCatch(col.gameObject);
@@ -99,6 +107,7 @@ public class ItemManager : MonoBehaviour {
 		itemHeld.collider.enabled = false;
 		itemHeld.rigidbody.velocity = Vector3.zero;
 		itemHeld.rigidbody.useGravity = false;
+        itemHeld.tag = "Item";
 		
         if (player.name == "Player1")
 			itemHeld.layer = 10;

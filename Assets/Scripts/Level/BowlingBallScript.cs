@@ -2,22 +2,40 @@
 using System.Collections;
 
 public class BowlingBallScript : ItemBase {
-    
-    public override void onThrow()
+
+    private float timer;
+    public float origTimer;
+
+    void Awake()
     {
-        base.onThrow();
+        timer = origTimer;
     }
 
-    public override void onHit()
+    IEnumerator Start()
     {
-        Destroy(gameObject, 5.0f);
-    }
-
-    void OnCollisionEnter()
-    {
-        if (this.gameObject.tag == "ThrownItem")
+        while (true)
         {
-            onHit();
+            if (this.gameObject.tag == "ThrownItem")
+            {
+                timer -= 1.0f;
+                if (timer <= 0.0f)
+                {
+                    onHit();
+                }
+            }
+            else
+            {
+                timer = origTimer;
+            }
+
+            Debug.Log(timer.ToString());
+
+            yield return new WaitForSeconds(1.0f);
         }
     }
+    public override void onHit()
+    {
+        Destroy(gameObject);
+    }
+
 }
