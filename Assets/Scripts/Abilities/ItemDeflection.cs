@@ -24,7 +24,7 @@ public class ItemDeflection : MonoBehaviour
 
     void OnTriggerEnter(Collider item)
     {
-        if (item.gameObject.tag == "Item")
+        if (item.gameObject.tag == "ThrownItem")
         {
 
             if (transform.parent.GetComponent<Invisibility>().invisible == true)
