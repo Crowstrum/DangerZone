@@ -12,14 +12,14 @@ public class Laser : MonoBehaviour
 		public GameObject laserCol;
 		public float speed;
 		public bool laserActive;
-	
+        private Light lig;
 		private Vector3 pointA;
 		private Vector3 pointB;
 	
 	
 		IEnumerator Start ()
 		{
-
+            lig = light.GetComponent<Light>();
 		
 				while (true) {
 						yield return StartCoroutine (ChargeUp ());
@@ -32,6 +32,7 @@ public class Laser : MonoBehaviour
 						yield return StartCoroutine (FireSound (false));
 						laserActive = false;
 						yield return new WaitForSeconds (3.0f);
+                        lig.intensity = 0;
 						
 						
 				}
@@ -86,7 +87,14 @@ public class Laser : MonoBehaviour
 
 		void Update ()
 		{
-				light.SetActive (laserActive);
+            if (laserActive)
+            {
+                lig.intensity = Mathf.Lerp(lig.intensity, 30f, Time.deltaTime * 5f);
+            }
+            else if (!laserActive)
+            {
+                lig.intensity = Mathf.Lerp(lig.intensity, 0f, Time.deltaTime * 5f);
+            }
 				laserCol.collider.enabled = laserActive;
 		}
 }
