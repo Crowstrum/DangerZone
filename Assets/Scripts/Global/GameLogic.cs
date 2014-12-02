@@ -52,20 +52,20 @@ public class GameLogic : MonoBehaviour
 						winPanel.SetActive (true);
 						if (Global.Instance.player1Score > Global.Instance.player2Score) {
 								TweenAlpha.Begin (winPanel, 1, 1);
-								winPanel.GetComponentInChildren<UILabel> ().text = "Player 1 Wins !";
-								yield return StartCoroutine (fuckThis ());
+								winPanel.GetComponentInChildren<UILabel> ().text = "Player 1 Wins!";
+								yield return StartCoroutine (Winner ());
 								
 
 						}
 						if (Global.Instance.player1Score < Global.Instance.player2Score) {
 								TweenAlpha.Begin (winPanel, 1, 1);
-								winPanel.GetComponentInChildren<UILabel> ().text = "Player 2 Wins !";				
-								yield return StartCoroutine (fuckThis ());
+								winPanel.GetComponentInChildren<UILabel> ().text = "Player 2 Wins!";				
+								yield return StartCoroutine (Winner ());
 						}
 						if (Global.Instance.player1Score == Global.Instance.player2Score) {
 								TweenAlpha.Begin (winPanel, 1, 1);
-								winPanel.GetComponentInChildren<UILabel> ().text = "NO ONE Wins !";				
-								yield return StartCoroutine (fuckThis ());
+								winPanel.GetComponentInChildren<UILabel> ().text = "Tie!";				
+								yield return StartCoroutine (Winner ());
 						}
 				}
 
@@ -150,7 +150,7 @@ public class GameLogic : MonoBehaviour
 				yield return 0;
 		}
 
-		IEnumerator fuckThis ()
+		IEnumerator Winner ()
 		{
 								
 				
