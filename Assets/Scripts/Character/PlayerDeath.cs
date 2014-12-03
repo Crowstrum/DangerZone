@@ -3,13 +3,20 @@ using System.Collections;
 
 public class PlayerDeath : MonoBehaviour, IDeath
 {
+		
+		// Use this for initialization
+		void Start ()
+		{
+			
+		
+		
+		}
 		void Update ()
 		{
-				if (Input.GetKeyDown (KeyCode.A)) {
-						OnDeath ();
-				}
+			
+		}	
+		// Update is called once per frame
 
-		}
 	#region IDeath implementation
 
 		public void OnDeath ()
@@ -29,12 +36,17 @@ public class PlayerDeath : MonoBehaviour, IDeath
 				Global.Instance.RefreshFlag ();
 			
 				Destroy (GetComponentInChildren<ItemManager> ().itemHeld);
+				
+
+					
+				//
+			
 				Destroy (gameObject);
 				
 				
 		}
 
-	#endregion
+				#endregion
 
 
 }

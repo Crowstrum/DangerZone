@@ -6,7 +6,7 @@ public class GrenadeScript : ItemBase
 {
 	
 		public float expForce;
-	
+		public ParticleSystem explosion;
 		// Use this for initialization
 		void Awake ()
 		{
@@ -58,10 +58,15 @@ public class GrenadeScript : ItemBase
 								//col.rigidbody.AddForce(distance * expForce);
 								col.rigidbody.AddExplosionForce (expForce, transform.position, 5f);
 								Global.Instance.DecrementItemCounter ();
+								GameObject temp = Instantiate (explosion, transform.position, Quaternion.identity) as GameObject;
+								Destroy (temp, 1f);
 								Destroy (gameObject);
 						} else {
 								Global.Instance.DecrementItemCounter ();
+								GameObject temp = Instantiate (explosion, transform.position, Quaternion.identity) as GameObject;
+								Destroy (temp, 1f);
 								Destroy (gameObject);
+								
 						}
 			
 				}
