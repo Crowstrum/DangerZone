@@ -31,7 +31,7 @@ public class GameLogic : MonoBehaviour
 						
 						yield return StartCoroutine (ResetRound ());
 
-						yield return StartCoroutine (SpawnTheDead ());
+                        yield return StartCoroutine(SpawnTheDead());
 						
 						yield return StartCoroutine (PlayerScore ());
 						
@@ -94,11 +94,11 @@ public class GameLogic : MonoBehaviour
 						Global.Instance.flag.transform.position = origin.position;
 						Global.Instance.flag.tag = "Flag";
 						Global.Instance.RefreshFlag ();
-						yield return new WaitForSeconds (.3f);
-						yield return StartCoroutine (ReSpawnPlayers ());
+                        yield return new WaitForSeconds(.3f);
+						yield return StartCoroutine(ReSpawnPlayers ());
 				}
 
-				yield return 0;
+		//		yield return 0;
 
 
 		}
@@ -126,8 +126,9 @@ public class GameLogic : MonoBehaviour
 
 		IEnumerator SpawnTheDead ()
 		{
-				
-				
+
+                //yield return new WaitForSeconds(.5f);
+
 				
 				if (Global.Instance.p1Dead && Global.Instance.p2Dead) {
 					
@@ -135,17 +136,12 @@ public class GameLogic : MonoBehaviour
 						Global.Instance.p1Dead = false;
 						Global.Instance.p2Dead = false;
 				} else if (Global.Instance.p1Dead) {
-						//yield return new WaitForSeconds (.5f);
 						gameObject.GetComponent<Spawner> ().SpawnPlayer ("Player1");
 						Global.Instance.p1Dead = false;
 				} else if (Global.Instance.p2Dead) {
-						//yield return new WaitForSeconds (.5f);
 						gameObject.GetComponent<Spawner> ().SpawnPlayer ("Player2");
 						Global.Instance.p2Dead = false;
-				}
-								
-						
-						
+				}	
 				
 				yield return 0;
 		}

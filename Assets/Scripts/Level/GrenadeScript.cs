@@ -40,7 +40,7 @@ public class GrenadeScript : ItemBase
 		
 				//rigidbody.AddExplosionForce(expForce, transform.position, 5f);
 		
-				Collider[] hitcolliders = Physics.OverlapSphere (gameObject.transform.position, 1f);
+				Collider[] hitcolliders = Physics.OverlapSphere (gameObject.transform.position, 2f);
 		
 				foreach (Collider col in hitcolliders) {
 						if (col.gameObject != this.gameObject && col.tag == "Item" || col.tag == "ThrownItem" || col.tag == "Player") {

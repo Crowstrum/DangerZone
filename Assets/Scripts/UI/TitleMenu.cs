@@ -9,6 +9,7 @@ public class TitleMenu : MonoBehaviour
 		public GameObject gameWindow;
 		public GameObject TitleText;
 		public GameObject CharacterMenu;
+        public GameObject AboutMenu;
 		bool P1C1Selected = false;
 		bool P1C2Selected = false;
 		bool P2C1Selected = false;
@@ -28,15 +29,17 @@ public class TitleMenu : MonoBehaviour
 		public TweenPosition gameTween;
 		public TweenPosition titleTween;
 		public TweenAlpha characterAlphaTween;
+        public TweenAlpha aboutTween;
 	
 	#endregion
 		
 		void Start ()
 		{
+            aboutTween = AboutMenu.GetComponent<TweenAlpha>();
 				characterAlphaTween = CharacterMenu.GetComponent<TweenAlpha> ();
 				gameTween = gameWindow.GetComponent<TweenPosition> ();
 				titleTween = TitleText.GetComponent<TweenPosition> ();
-				titleTween.callWhenFinished = "FadeInCharacterSelect";
+				
 				titleTween.eventReceiver = gameObject;
 	
 		}
@@ -47,6 +50,7 @@ public class TitleMenu : MonoBehaviour
 				characterAlphaTween.from = 0;
 				characterAlphaTween.to = 1;
 				titleTween.Play ();
+                titleTween.callWhenFinished = "FadeInCharacterSelect";
 				gameTween.Play ();
 				P1B1.GetComponent<UIKeyNavigation> ().startsSelected = true;
 
@@ -67,6 +71,30 @@ public class TitleMenu : MonoBehaviour
 		{
 				Application.Quit ();
 		}
+
+        public void OnAboutSelected()
+        {
+            aboutTween.from = 0;
+            aboutTween.to = 1;
+            titleTween.Play();
+            titleTween.callWhenFinished = "FadeInAbout";
+            gameTween.Play();
+       
+        }
+
+        void FadeInAbout()
+        {
+            aboutTween.Play();
+        }
+
+        public void OnBackSelectedAbout()
+        {
+            aboutTween.from = 1;
+            aboutTween.to = 0;
+            aboutTween.Play();
+            gameTween.PlayReverse();
+            titleTween.PlayReverse();
+        }
 		
 		public void P1NinjaSelected ()
 		{

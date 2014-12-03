@@ -25,11 +25,13 @@ public class PlayerDeath : MonoBehaviour, IDeath
 				if (gameObject.name == "Player1") {
 						Global.Instance.p1Dead = true;
 						Debug.Log (Global.Instance.p1Dead);
-						GameObject.Find ("Player2").GetComponentInChildren<ItemManager> ().itemCatch (GameObject.FindGameObjectWithTag ("Flag"));
+                        GameObject p2 = GameObject.Find("Player2");
+                        if(p2 != null) p2.GetComponentInChildren<ItemManager> ().itemCatch (GameObject.FindGameObjectWithTag ("Flag"));
 				} else if (gameObject.name == "Player2") {
 						Global.Instance.p2Dead = true;
 						Debug.Log (Global.Instance.p1Dead + " p2");
-						GameObject.Find ("Player1").GetComponentInChildren<ItemManager> ().itemCatch (GameObject.FindGameObjectWithTag ("Flag"));
+                        GameObject p1 = GameObject.Find("Player1");
+                        if (p1 != null) p1.GetComponentInChildren<ItemManager>().itemCatch(GameObject.FindGameObjectWithTag("Flag"));
 				}
 				//Global.Instance.PlayerDeathSpawn (gameObject.name);
 				//	Global.Instance.SetRespawnNeeded (true);
